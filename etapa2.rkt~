@@ -43,17 +43,8 @@
 ; => '((#\w #\h #\y #\$) (#\h #\y #\$) (#\y #\$) (#\$))
 ; Folosiți recursivitate pe stivă.
 (define (get-suffixes text)
+  'your-code-here)
 
-  ;(display (list 'aici-incepe: text))
-
-  ;(st2-ex1-suffixe-accumulator text)
-
-  (if (null? text)
-      '()
-      (append (list text) (get-suffixes (cdr text)))
-      )
-  
-  )
 
 ; TODO 2
 ; Implementați o funcție care primește o listă de cuvinte 
@@ -62,27 +53,9 @@
 ; Atenție, este posibil ca unele cuvinte să fie vide.
 ; Folosiți funcționale (și nu folosiți recursivitate explicită).
 (define (get-ch-words words ch)
+  'your-code-here)
 
-  (if (null? words)
-      '()
-      (if (verify-word (car words) ch)
-          (append (list (car words)) (get-ch-words (cdr words) ch))
-          (get-ch-words (cdr words) ch)
-          )
-      )
 
-)
-
-(define (verify-word word ch)
-
-  (if (equal? (car word) ch)
-      #t
-      #f
-      )
-
-  )
-
-            
 ; TODO 3
 ; Implementați o funcție care primește o listă nevidă de sufixe 
 ; care încep cu același caracter și calculează perechea
