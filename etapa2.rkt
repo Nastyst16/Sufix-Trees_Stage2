@@ -65,8 +65,12 @@
 
 (define (get-ch-words words ch)
 
-  (filter (lambda (x) (equal? (car x) ch)) words)
-
+  (if (null? words)
+      null
+      ;(filter (lambda (x) (equal? (car x) ch)) words)
+      (filter (lambda (x) (and (pair? x) (equal? (car x) ch))) words) ; see this later
+      )
+  
   )
 
             
@@ -81,7 +85,10 @@
 ; Nu folosiți recursivitate explicită.
 (define (ast-func suffixes)
 
-  (cons (list (car (car suffixes))) (map cdr suffixes))
+  (if (null? suffixes)
+      null
+      (cons (list (car (car suffixes))) (map cdr suffixes))
+      )
   
   )
 
@@ -132,10 +139,24 @@
 
   (cond
     ((null? char) null)
+    ((null? suffixes) null)
     (else (let* ((list-of-words-by-char (get-ch-words suffixes char))
-                 (ast-or-cst-rez (labeling-func suffixes))
+                 (ast-or-cst-rez (labeling-func list-of-words-by-char))
                  )
-            list-of-words-by-char
+            ;list-of-words-by-char
+            ;(display (list 'list-of-words-by-char: list-of-words-by-char 'caracter char))
+            ;ast-or-cst-rez
+            ;(display (list 'ast-or-cst-rez: ast-or-cst-rez))
+
+            
+            (cond
+              ((null? ast-or-cst-rez) null)
+              ((null? (car (cdr ast-or-cst-rez))) null)
+              (else (cons (car ast-or-cst-rez) (list (helper-char-by-char labeling-func (cdr ast-or-cst-rez) (car (car (cdr ast-or-cst-rez))))))
+                    )
+              )
+
+            
             )
           )
     )
