@@ -1,6 +1,7 @@
 #lang racket
 (require "suffix-tree.rkt")
 (require "etapa1.rkt")
+;(require "pretty-print.rkt")
 
 (provide (all-defined-out))
 
@@ -116,10 +117,60 @@
 ; folosiți funcționale.
 (define (suffixes->st labeling-func suffixes alphabet)
 
+  ; tot ce returneaza functia helper-char-by-cha va fi stocata intr o lista
+  (let ((rez (map (lambda (char) (helper-char-by-char labeling-func suffixes char)) alphabet)))
+    (display rez)
+    )
+         
+  
 
+  
+  )
+
+; vom apela aceasta functie pentru fiecare caracter din variabila "alphabet"
+(define (helper-char-by-char labeling-func suffixes char)
+
+  (cond
+    ((null? char) null)
+    (else (let* ((list-of-words-by-char (get-ch-words suffixes char))
+                 (ast-or-cst-rez (labeling-func suffixes))
+                 )
+            list-of-words-by-char
+            )
+          )
+    )
+
+
+  ;'dfdfdf
+  )
+
+
+
+
+
+#|
+(define (helper-exercise-5 list-of-words)
+
+  
+  (if (null? alphabet)
+      null
+      ; apelam recursiv alphabet si pentru fiecare litera
+      ; apelam functia de la exercitiul 2: "(get-ch-words words ch)"
+      ((let ((list-of-words-beginning-with-car-alphabet ; ia valoarea de la linia urmatoare
+              (get-ch-words suffixes (car alphabet))))
+         
+
+         )
+       )
+      )
+  
 
 
   )
+|#
+
+
+  
 
 
 ; TODO 6
@@ -158,3 +209,21 @@
 ; asociat textului.
 (define text->cst
   'your-code-here)
+
+
+
+; sufixe banana
+(define suff-1
+  '((#\b #\a #\n #\a #\n #\a #\$)
+    (#\a #\n #\a #\n #\a #\$)
+    (#\n #\a #\n #\a #\$)
+    (#\a #\n #\a #\$)
+    (#\n #\a #\$)
+    (#\a #\$)
+    (#\$)))
+
+(define stree-1a
+  '(((#\a) ((#\n) ((#\a) ((#\n) ((#\a) ((#\$)))) ((#\$)))) ((#\$)))
+    ((#\b) ((#\a) ((#\n) ((#\a) ((#\n) ((#\a) ((#\$))))))))
+    ((#\n) ((#\a) ((#\n) ((#\a) ((#\$)))) ((#\$))))
+    ((#\$))))
