@@ -68,9 +68,6 @@
 
   )
 
-
-
-
             
 ; TODO 3
 ; Implementați o funcție care primește o listă nevidă de sufixe 
@@ -85,7 +82,6 @@
 
   (cons (list (car (car suffixes))) (map cdr suffixes))
   
-
   )
 
 
@@ -98,7 +94,12 @@
 ; acestui prefix.
 ; Nu folosiți recursivitate explicită.
 (define (cst-func suffixes)
-  'your-code-here)
+
+  (let ((cel-mai-lung-prefix (longest-common-prefix-of-list suffixes)))
+    (cons cel-mai-lung-prefix (map (lambda (word) (drop word (length cel-mai-lung-prefix))) suffixes))
+    )
+
+  )
 
 
 ; TODO 5
@@ -114,7 +115,11 @@
 ; pentru celelalte prelucrări (pașii 2 și 3) trebuie să
 ; folosiți funcționale.
 (define (suffixes->st labeling-func suffixes alphabet)
-  'your-code-here)
+
+
+
+
+  )
 
 
 ; TODO 6
