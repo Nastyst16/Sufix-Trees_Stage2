@@ -61,15 +61,26 @@
 ; încep cu caracterul ch.
 ; Atenție, este posibil ca unele cuvinte să fie vide.
 ; Folosiți funcționale (și nu folosiți recursivitate explicită).
-
 (define (get-ch-words words ch)
 
-  (filter (lambda (x) (equal? (car x) ch)) words)
+  (if (null? words)
+      '()
+      (if (verify-word (car words) ch)
+          (append (list (car words)) (get-ch-words (cdr words) ch))
+          (get-ch-words (cdr words) ch)
+          )
+      )
+
+)
+
+(define (verify-word word ch)
+
+  (if (equal? (car word) ch)
+      #t
+      #f
+      )
 
   )
-
-
-
 
             
 ; TODO 3
@@ -82,11 +93,7 @@
 ; se obțin din cele vechi prin eliminarea acestui caracter.
 ; Nu folosiți recursivitate explicită.
 (define (ast-func suffixes)
-
-  (cons (list (car (car suffixes))) (map cdr suffixes))
-  
-
-  )
+  'your-code-here)
 
 
 ; TODO 4
