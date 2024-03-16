@@ -150,8 +150,15 @@
 
             
             (cond
-              ((null? ast-or-cst-rez) null)
-              ((null? (car (cdr ast-or-cst-rez))) null)
+              ;((null? ast-or-cst-rez) null) ; se pare ca nu am nevoie de linia asta
+              
+              ((null? (car (cdr ast-or-cst-rez))) (list '($)))
+
+              ;((null? (car (car (cdr ast-or-cst-rez)))) (car ast-or-cst-rez))
+
+              
+              ((= (length (car (reverse ast-or-cst-rez))) 1)
+               (cons (car ast-or-cst-rez) (list (helper-char-by-char labeling-func (cdr ast-or-cst-rez) (car (car (cdr ast-or-cst-rez)))) (list (car (reverse ast-or-cst-rez))))))
               (else (cons (car ast-or-cst-rez) (list (helper-char-by-char labeling-func (cdr ast-or-cst-rez) (car (car (cdr ast-or-cst-rez))))))
                     )
               )
@@ -165,8 +172,16 @@
   ;'dfdfdf
   )
 
+;out: (((a) ((n) ((a) ((n) ((a) ()))))) ((b) ((a) ((n) ((a) ((n) ((a) ())))))) ((n) ((a) ((n) ((a) ())))) ())
+
+;out: (((a) ((n) ((a) ((n) ((a) () (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) () (($)))))))) ((n) ((a) ((n) ((a) () (($)))) (($)))) ())
+
+;out: (((a) ((n) ((a) ((n) ((a) (($)) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)) (($)))))))) ((n) ((a) ((n) ((a) (($)) (($)))) (($)))) (($)))
+;ref: (((a) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) 
 
 
+;out_b: ((($)) ((a) (($)) ((n a) (($)) ) (($))) (($)) ((n a) (($)) (($))))
+;ref_b: ((($)) ((a) (($)) ((n a) (($)) ((n a $)))) ((b a n a n a $)) ((n a) (($)) ((n a $))))
 
 
 #|
