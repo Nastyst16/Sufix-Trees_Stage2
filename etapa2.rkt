@@ -145,21 +145,39 @@
   ;(display (labeling-func lista-ramuri))
 
   ;(display (length lista-ramuri))
+
+  
+  (if (eq? labeling-func cst-func)
+      (cond
+        ((null? lista-ramuri) ) ; nu fac nimic
+        ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
+        (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
+        )
+
+      (cond
+        ((null? lista-ramuri) ) ; nu fac nimic
+        ;((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
+        (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
+        )
+      
+      )
+  
   
 
+
+  
+  #|
   (cond
     ((null? lista-ramuri) ) ; nu fac nimic
     ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
     (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
-    
-    ;(else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr lista-ramuri) alphabet)))
-    
     )
+  |#
 
   )
 
 ;out_a: (((a) ((n) ((a) ((n a $)) (($)))) (($))) ((b a n a n a $)) ((n) ((a) ((n a $)) (($)))) (($)))
-;ref_a: (((a) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) 
+;ref_a: (((a) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) ((n) ((a) (($)))) (($)))) (($)))
 
                               
 
