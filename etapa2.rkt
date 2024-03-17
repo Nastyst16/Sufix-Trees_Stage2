@@ -85,10 +85,10 @@
 ; Nu folosiți recursivitate explicită.
 (define (ast-func suffixes)
 
-  (if (null? suffixes)
-      null
+  ;(if (null? suffixes)
+  ;    null
       (cons (list (car (car suffixes))) (map cdr suffixes))
-      )
+  ;    )
   
   )
 
@@ -124,89 +124,48 @@
 ; folosiți funcționale.
 (define (suffixes->st labeling-func suffixes alphabet)
 
-  ; tot ce returneaza functia helper-char-by-cha va fi stocata intr o lista
-  (let ((rez (map (lambda (char) (helper-char-by-char labeling-func suffixes char)) alphabet)))
-    (display rez)
+  (let* ((ramuri-by-char (map (lambda (char) (get-ch-words suffixes char)) alphabet))
+         (ast-or-cst-rez (map (lambda (lista-ramuri) (helper-suffixes->st labeling-func lista-ramuri alphabet)) ramuri-by-char))
+         )
+    'pula
+    
     )
-         
-  
+    
 
   
+  
+  
+         
+  ;'dfaf
   )
 
-; vom apela aceasta functie pentru fiecare caracter din variabila "alphabet"
-(define (helper-char-by-char labeling-func suffixes char)
+(define (helper-suffixes->st labeling-func lista-ramuri alphabet)
+
+                              ;debugging
+  (display lista-ramuri)
+  ;(newline)
+                              ;enddebugging
+  ;(display (labeling-func lista-ramuri))
+
+  (display (length lista-ramuri))
 
   (cond
-    ((null? char) null)
-    ((null? suffixes) null)
-    (else (let* ((list-of-words-by-char (get-ch-words suffixes char))
-                 (ast-or-cst-rez (labeling-func list-of-words-by-char))
-                 )
-            ;list-of-words-by-char
-            ;(display (list 'list-of-words-by-char: list-of-words-by-char 'caracter char))
-            ;ast-or-cst-rez
-            ;(display (list 'ast-or-cst-rez: ast-or-cst-rez))
-
-            
-            (cond
-              ;((null? ast-or-cst-rez) null) ; se pare ca nu am nevoie de linia asta
-              
-              ((null? (car (cdr ast-or-cst-rez))) (list '($)))
-
-              ;((null? (car (car (cdr ast-or-cst-rez)))) (car ast-or-cst-rez))
-
-              
-              ((= (length (car (reverse ast-or-cst-rez))) 1)
-               (cons (car ast-or-cst-rez) (list (helper-char-by-char labeling-func (cdr ast-or-cst-rez) (car (car (cdr ast-or-cst-rez)))) (list (car (reverse ast-or-cst-rez))))))
-              (else (cons (car ast-or-cst-rez) (list (helper-char-by-char labeling-func (cdr ast-or-cst-rez) (car (car (cdr ast-or-cst-rez))))))
-                    )
-              )
-
-            
-            )
-          )
+    ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
+    (else (display 'pulicica))
     )
+  
 
+  ;(list (car (car lista-ramuri
+  
 
-  ;'dfdfdf
   )
 
-;out: (((a) ((n) ((a) ((n) ((a) ()))))) ((b) ((a) ((n) ((a) ((n) ((a) ())))))) ((n) ((a) ((n) ((a) ())))) ())
-
-;out: (((a) ((n) ((a) ((n) ((a) () (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) () (($)))))))) ((n) ((a) ((n) ((a) () (($)))) (($)))) ())
-
-;out: (((a) ((n) ((a) ((n) ((a) (($)) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)) (($)))))))) ((n) ((a) ((n) ((a) (($)) (($)))) (($)))) (($)))
-;ref: (((a) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) 
+                              
 
 
-;out_b: ((($)) ((a) (($)) ((n a) (($)) ) (($))) (($)) ((n a) (($)) (($))))
 ;ref_b: ((($)) ((a) (($)) ((n a) (($)) ((n a $)))) ((b a n a n a $)) ((n a) (($)) ((n a $))))
 
 
-#|
-(define (helper-exercise-5 list-of-words)
-
-  
-  (if (null? alphabet)
-      null
-      ; apelam recursiv alphabet si pentru fiecare litera
-      ; apelam functia de la exercitiul 2: "(get-ch-words words ch)"
-      ((let ((list-of-words-beginning-with-car-alphabet ; ia valoarea de la linia urmatoare
-              (get-ch-words suffixes (car alphabet))))
-         
-
-         )
-       )
-      )
-  
-
-
-  )
-|#
-
-
-  
 
 
 ; TODO 6
@@ -263,3 +222,36 @@
     ((#\b) ((#\a) ((#\n) ((#\a) ((#\n) ((#\a) ((#\$))))))))
     ((#\n) ((#\a) ((#\n) ((#\a) ((#\$)))) ((#\$))))
     ((#\$))))
+
+
+;pt b
+(define stree-1c
+  '(((#\$))
+    ((#\a) ((#\$))
+           ((#\n #\a) ((#\$))
+                      ((#\n #\a #\$))))
+    ((#\b #\a #\n #\a #\n #\a #\$))
+    ((#\n #\a) ((#\$))
+               ((#\n #\a #\$)))))
+
+
+;out_b: ((($)) ((a) ((n a) (($)) (($))) (($))) (($)) ((n a) (($)) (($))))
+;ref_b: ((($)) ((a) (($)) ((n a) (($)) ((n a $)))) ((b a n a n a $)) ((n a) (($)) ((n a $))))
+
+
+
+(define suff-1-test
+  '((#\b #\a #\n #\a #\n #\a #\$)
+    (#\a #\n #\a #\n #\a #\$)
+    (#\n #\a #\n #\a #\$)
+    (#\a #\n #\a #\$)
+    (#\n #\a #\$)
+    (#\a #\$)
+    (#\$)))
+
+(define suff-1-pas1 ; luam tot ce incepe cu "a"
+  '((#\n #\a #\n #\a #\$)
+    (#\n #\a #\$)
+    (#\$))
+  )
+
