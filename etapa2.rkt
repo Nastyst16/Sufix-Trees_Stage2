@@ -124,6 +124,8 @@
 ; folosiți funcționale.
 (define (suffixes->st labeling-func suffixes alphabet)
 
+  ;(display (list 'suffixes->st suffixes)) (newline)
+
   (let* ((ramuri-by-char (map (lambda (char) (get-ch-words suffixes char)) alphabet))
          (ast-or-cst-rez (map (lambda (lista-ramuri) (helper-suffixes->st labeling-func lista-ramuri alphabet)) ramuri-by-char))
          )
@@ -142,16 +144,21 @@
 (define (helper-suffixes->st labeling-func lista-ramuri alphabet)
 
                               ;debugging
-  (display lista-ramuri)
+  ;(display (list 'lista-ramuri: lista-ramuri))
   ;(newline)
                               ;enddebugging
   ;(display (labeling-func lista-ramuri))
 
-  (display (length lista-ramuri))
+  ;(display (length lista-ramuri))
+  
 
   (cond
-    ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
-    (else (display 'pulicica))
+    ((null? lista-ramuri) ) ; nu fac nimic
+    ((= (length lista-ramuri) 1) (display lista-ramuri)) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
+    (else (display (car (labeling-func lista-ramuri))) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet))
+    
+    ;(else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr lista-ramuri) alphabet)))
+    
     )
   
 
