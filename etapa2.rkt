@@ -129,15 +129,10 @@
   (let* ((ramuri-by-char (map (lambda (char) (get-ch-words suffixes char)) alphabet))
          (ast-or-cst-rez (map (lambda (lista-ramuri) (helper-suffixes->st labeling-func lista-ramuri alphabet)) ramuri-by-char))
          )
-    'pula
+    (filter (lambda (x) (not (equal? x #t))) ast-or-cst-rez)
     
     )
-    
-
-  
-  
-  
-         
+   
   ;'dfaf
   )
 
@@ -154,18 +149,17 @@
 
   (cond
     ((null? lista-ramuri) ) ; nu fac nimic
-    ((= (length lista-ramuri) 1) (display lista-ramuri)) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
-    (else (display (car (labeling-func lista-ramuri))) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet))
+    ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
+    (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
     
     ;(else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr lista-ramuri) alphabet)))
     
     )
-  
-
-  ;(list (car (car lista-ramuri
-  
 
   )
+
+;out_a: (((a) ((n) ((a) ((n a $)) (($)))) (($))) ((b a n a n a $)) ((n) ((a) ((n a $)) (($)))) (($)))
+;ref_a: (((a) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) 
 
                               
 
@@ -256,9 +250,31 @@
     (#\a #\$)
     (#\$)))
 
-(define suff-1-pas1 ; luam tot ce incepe cu "a"
-  '((#\n #\a #\n #\a #\$)
-    (#\n #\a #\$)
-    (#\$))
-  )
+#|
+'((((#\a)
+    ((bagpula)
+     (bagpula)
+     ((#\n) (((#\a) ((bagpula) (bagpula) ((#\n #\a #\$)) ((#\$)))) (bagpula) (bagpula) (bagpula)))
+     ((#\$))))
+   ((#\b #\a #\n #\a #\n #\a #\$))
+   ((#\n) (((#\a) ((bagpula) (bagpula) ((#\n #\a #\$)) ((#\$)))) (bagpula) (bagpula) (bagpula)))
+   ((#\$))))
+|#
+
+;ref b
+; ST compact pentru "banana".
+(define stree-1cfd
+  '(((#\$))
+    ((#\a) ((#\$))
+           ((#\n #\a) ((#\$))
+                      ((#\n #\a #\$))))
+    ((#\b #\a #\n #\a #\n #\a #\$))
+    ((#\n #\a) ((#\$))
+               ((#\n #\a #\$)))))
+
+
+
+
+
+
 
