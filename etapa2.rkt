@@ -188,17 +188,15 @@
   (lambda (text)
     (lambda (labeling-func)
 
-      (let* ((alphabet (append '(#\$) (remove-duplicates (sort text char<?))))
+      (let* ((alphabet (remove-duplicates (sort (append '(#\$) text) char<?)))
              (suffixes (helper-list-suffix-creator text))
              (suffix-tree (suffixes->st labeling-func suffixes alphabet))
              )
-        ;suffixes
+        
         suffix-tree
         )
       )
     )
-
-
   
   )
 
@@ -210,9 +208,6 @@
       )
   )
 
-;out ((($)) ((  p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((a) ((r a t u s $)) ((t u s $))) ((c u s   p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((e p a r a t u s $)) ((h o c u s   p o c u s   p r e p a r a t u s $)) ((o c u s   p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((p) ((a r a t u s $)) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((r) ((a t u s $)) ((e p a r a t u s $))) ((s) (($)) ((  p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $)))) ((t u s $)) ((u s) (($)) ((  p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $)))))
-;ref ((($)) ((a) (($)) ((n) ((a) (($)) ((n) ((a) (($))))))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) (($)) ((n) ((a) (($)))))))
-      
 
 ; b) Din funcția text->st derivați funcția text->ast care
 ; primește un text (listă de caractere) și întoarce AST-ul
@@ -231,8 +226,6 @@
   ((text->st text) cst-func)
 
   )
-
-
 
 
 ; sufixe agcgacgag
