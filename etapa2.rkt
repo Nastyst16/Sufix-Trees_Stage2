@@ -46,10 +46,6 @@
 ; Folosiți recursivitate pe stivă.
 (define (get-suffixes text)
 
-  ;(display (list 'aici-incepe: text))
-
-  ;(st2-ex1-suffixe-accumulator text)
-
   (if (null? text)
       '()
       (append (list text) (get-suffixes (cdr text)))
@@ -68,8 +64,7 @@
 
   (if (null? words)
       null
-      ;(filter (lambda (x) (equal? (car x) ch)) words)
-      (filter (lambda (x) (and (pair? x) (equal? (car x) ch))) words) ; see this later
+      (filter (lambda (x) (and (pair? x) (equal? (car x) ch))) words)
       )
   
   )
@@ -85,11 +80,8 @@
 ; se obțin din cele vechi prin eliminarea acestui caracter.
 ; Nu folosiți recursivitate explicită.
 (define (ast-func suffixes)
-
-  ;(if (null? suffixes)
-  ;    null
-      (cons (list (car (car suffixes))) (map cdr suffixes))
-  ;    )
+  
+  (cons (list (car (car suffixes))) (map cdr suffixes))
   
   )
 
@@ -125,26 +117,15 @@
 ; folosiți funcționale.
 (define (suffixes->st labeling-func suffixes alphabet)
 
-  ;(display (list 'suffixes->st suffixes)) (newline)
-
-  ;(display suffixes)
-  ;(display alphabet)
-
   (let* ((ramuri-by-char (map (lambda (char) (get-ch-words suffixes char)) alphabet))
          (ast-or-cst-rez (map (lambda (lista-ramuri) (helper-suffixes->st labeling-func lista-ramuri alphabet)) ramuri-by-char))
          )
     (filter (lambda (x) (not (equal? x #t))) ast-or-cst-rez)
     
     )
-   
   )
 
 (define (helper-suffixes->st labeling-func lista-ramuri alphabet)
-
-                              ;debugging
-  ;(display (list 'lista-ramuri: lista-ramuri))
-  ;(newline)
-                              ;enddebugging
 
   (if (eq? labeling-func cst-func)
       (cond
@@ -226,81 +207,3 @@
   ((text->st text) cst-func)
 
   )
-
-
-; sufixe agcgacgag
-(define suff-2
-  '((#\a #\g #\c #\g #\a #\c #\g #\a #\g #\$)
-    (#\g #\c #\g #\a #\c #\g #\a #\g #\$)
-    (#\c #\g #\a #\c #\g #\a #\g #\$)
-    (#\g #\a #\c #\g #\a #\g #\$)
-    (#\a #\c #\g #\a #\g #\$)
-    (#\c #\g #\a #\g #\$)
-    (#\g #\a #\g #\$)
-    (#\a #\g #\$)
-    (#\g #\$)
-    (#\$)))
-
-
-
-
-
-; sufixe banana
-(define suff-1
-  '((#\b #\a #\n #\a #\n #\a #\$)
-    (#\a #\n #\a #\n #\a #\$)
-    (#\n #\a #\n #\a #\$)
-    (#\a #\n #\a #\$)
-    (#\n #\a #\$)
-    (#\a #\$)
-    (#\$)))
-
-(define stree-1a
-  '(((#\a) ((#\n) ((#\a) ((#\n) ((#\a) ((#\$)))) ((#\$)))) ((#\$)))
-    ((#\b) ((#\a) ((#\n) ((#\a) ((#\n) ((#\a) ((#\$))))))))
-    ((#\n) ((#\a) ((#\n) ((#\a) ((#\$)))) ((#\$))))
-    ((#\$))))
-
-
-;pt b
-(define stree-1c
-  '(((#\$))
-    ((#\a) ((#\$))
-           ((#\n #\a) ((#\$))
-                      ((#\n #\a #\$))))
-    ((#\b #\a #\n #\a #\n #\a #\$))
-    ((#\n #\a) ((#\$))
-               ((#\n #\a #\$)))))
-
-
-;out_b: ((($)) ((a) ((n a) (($)) (($))) (($))) (($)) ((n a) (($)) (($))))
-;ref_b: ((($)) ((a) (($)) ((n a) (($)) ((n a $)))) ((b a n a n a $)) ((n a) (($)) ((n a $))))
-
-
-
-(define suff-1-test
-  '((#\b #\a #\n #\a #\n #\a #\$)
-    (#\a #\n #\a #\n #\a #\$)
-    (#\n #\a #\n #\a #\$)
-    (#\a #\n #\a #\$)
-    (#\n #\a #\$)
-    (#\a #\$)
-    (#\$)))
-
-;ref b
-; ST compact pentru "banana".
-(define stree-1cfd
-  '(((#\$))
-    ((#\a) ((#\$))
-           ((#\n #\a) ((#\$))
-                      ((#\n #\a #\$))))
-    ((#\b #\a #\n #\a #\n #\a #\$))
-    ((#\n #\a) ((#\$))
-               ((#\n #\a #\$)))))
-
-
-
-
-
-
-

@@ -146,20 +146,6 @@
 ; arbore de sufixe și un șablon și întoarce true dacă șablonul
 ; apare în arbore, respectiv false în caz contrar.
 
-(define (helper-exercise-5 st pattern)
-
-  (cond
-    ((null? st) #f)
-    ((null? pattern) #t)
-    ((equal? (match-pattern-with-label st pattern) #t) #t)
-    (else (helper-exercise-5 (list-ref (match-pattern-with-label st pattern) 2) (list-ref (match-pattern-with-label st pattern) 1)))
-    )
-
-  
-  )
-
-
-
 
 (define (st-has-pattern? st pattern)
 
