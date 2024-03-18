@@ -2,6 +2,7 @@
 (require "suffix-tree.rkt")
 (require "etapa1.rkt")
 ;(require "pretty-print.rkt")
+(require racket/list)
 
 (provide (all-defined-out))
 
@@ -126,6 +127,9 @@
 
   ;(display (list 'suffixes->st suffixes)) (newline)
 
+  ;(display suffixes)
+  ;(display alphabet)
+
   (let* ((ramuri-by-char (map (lambda (char) (get-ch-words suffixes char)) alphabet))
          (ast-or-cst-rez (map (lambda (lista-ramuri) (helper-suffixes->st labeling-func lista-ramuri alphabet)) ramuri-by-char))
          )
@@ -133,7 +137,6 @@
     
     )
    
-  ;'dfaf
   )
 
 (define (helper-suffixes->st labeling-func lista-ramuri alphabet)
@@ -142,11 +145,7 @@
   ;(display (list 'lista-ramuri: lista-ramuri))
   ;(newline)
                               ;enddebugging
-  ;(display (labeling-func lista-ramuri))
 
-  ;(display (length lista-ramuri))
-
-  
   (if (eq? labeling-func cst-func)
       (cond
         ((null? lista-ramuri) ) ; nu fac nimic
@@ -156,35 +155,11 @@
 
       (cond
         ((null? lista-ramuri) ) ; nu fac nimic
-        ;((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
         (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
         )
       
       )
-  
-  
-
-
-  
-  #|
-  (cond
-    ((null? lista-ramuri) ) ; nu fac nimic
-    ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
-    (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
-    )
-  |#
-
   )
-
-;out_a: (((a) ((n) ((a) ((n a $)) (($)))) (($))) ((b a n a n a $)) ((n) ((a) ((n a $)) (($)))) (($)))
-;ref_a: (((a) ((n) ((a) ((n) ((a) (($)))) (($)))) (($))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) ((n) ((a) (($)))) (($)))) (($)))
-
-                              
-
-
-;ref_b: ((($)) ((a) (($)) ((n a) (($)) ((n a $)))) ((b a n a n a $)) ((n a) (($)) ((n a $))))
-
-
 
 
 ; TODO 6
@@ -210,19 +185,70 @@
 ; Obs: Din acest motiv, checker-ul testează doar funcțiile
 ; text->ast și text->cst.
 (define text->st
-  'your-code-here)
+  (lambda (text)
+    (lambda (labeling-func)
+
+      (let* ((alphabet (append '(#\$) (remove-duplicates (sort text char<?))))
+             (suffixes (helper-list-suffix-creator text))
+             (suffix-tree (suffixes->st labeling-func suffixes alphabet))
+             )
+        ;suffixes
+        suffix-tree
+        )
+      )
+    )
+
+
+  
+  )
+
+(define (helper-list-suffix-creator text)
+
+  (if (null? text)
+      (list '(#\$))
+      (cons (append text '(#\$)) (helper-list-suffix-creator (cdr text)))
+      )
+  )
+
+;out ((($)) ((  p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((a) ((r a t u s $)) ((t u s $))) ((c u s   p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((e p a r a t u s $)) ((h o c u s   p o c u s   p r e p a r a t u s $)) ((o c u s   p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((p) ((a r a t u s $)) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $))) ((r) ((a t u s $)) ((e p a r a t u s $))) ((s) (($)) ((  p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $)))) ((t u s $)) ((u s) (($)) ((  p) ((o c u s   p r e p a r a t u s $)) ((r e p a r a t u s $)))))
+;ref ((($)) ((a) (($)) ((n) ((a) (($)) ((n) ((a) (($))))))) ((b) ((a) ((n) ((a) ((n) ((a) (($)))))))) ((n) ((a) (($)) ((n) ((a) (($)))))))
+      
 
 ; b) Din funcția text->st derivați funcția text->ast care
 ; primește un text (listă de caractere) și întoarce AST-ul
 ; asociat textului.
-(define text->ast
-  'your-code-here)
+(define (text->ast text)
+
+  ((text->st text) ast-func)
+
+  )
 
 ; c) Din funcția text->st derivați funcția text->cst care
 ; primește un text (listă de caractere) și întoarce CST-ul
 ; asociat textului.
-(define text->cst
-  'your-code-here)
+(define (text->cst text)
+
+  ((text->st text) cst-func)
+
+  )
+
+
+
+
+; sufixe agcgacgag
+(define suff-2
+  '((#\a #\g #\c #\g #\a #\c #\g #\a #\g #\$)
+    (#\g #\c #\g #\a #\c #\g #\a #\g #\$)
+    (#\c #\g #\a #\c #\g #\a #\g #\$)
+    (#\g #\a #\c #\g #\a #\g #\$)
+    (#\a #\c #\g #\a #\g #\$)
+    (#\c #\g #\a #\g #\$)
+    (#\g #\a #\g #\$)
+    (#\a #\g #\$)
+    (#\g #\$)
+    (#\$)))
+
+
 
 
 
@@ -267,17 +293,6 @@
     (#\n #\a #\$)
     (#\a #\$)
     (#\$)))
-
-#|
-'((((#\a)
-    ((bagpula)
-     (bagpula)
-     ((#\n) (((#\a) ((bagpula) (bagpula) ((#\n #\a #\$)) ((#\$)))) (bagpula) (bagpula) (bagpula)))
-     ((#\$))))
-   ((#\b #\a #\n #\a #\n #\a #\$))
-   ((#\n) (((#\a) ((bagpula) (bagpula) ((#\n #\a #\$)) ((#\$)))) (bagpula) (bagpula) (bagpula)))
-   ((#\$))))
-|#
 
 ;ref b
 ; ST compact pentru "banana".
