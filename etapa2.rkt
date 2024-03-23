@@ -127,19 +127,10 @@
 
 (define (helper-suffixes->st labeling-func lista-ramuri alphabet)
 
-  (if (eq? labeling-func cst-func)
-      (cond
-        ((null? lista-ramuri) ) ; nu fac nimic
-        ((= (length lista-ramuri) 1) lista-ramuri) ; cand avem doar un singur element in lista, pt a nu avea elementul parazit, adica lista '() vom returna direc ramura
-        (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
-        )
-
-      (cond
-        ((null? lista-ramuri) ) ; nu fac nimic
-        (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
-        )
-      
-      )
+  (cond
+    ((null? lista-ramuri) ) ; nu fac nimic
+    (else (cons (car (labeling-func lista-ramuri)) (suffixes->st labeling-func (cdr (labeling-func lista-ramuri)) alphabet)))
+    )
   )
 
 
